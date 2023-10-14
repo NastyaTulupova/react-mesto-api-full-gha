@@ -1,0 +1,12 @@
+.profile__avatar-conteiner {
+  background-color: #000;
+  background-image: url(../../../images/Pen.svg);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: 26px 26px;
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  transition: opacity 0.7s ease-in-out;
+  margin-right: 30px;
+}

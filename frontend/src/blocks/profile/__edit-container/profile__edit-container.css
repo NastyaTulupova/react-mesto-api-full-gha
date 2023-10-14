@@ -1,0 +1,15 @@
+.profile__edit-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 18px;
+  margin-bottom: 7px;
+}
+
+@media screen and (max-width: 900px) {
+  .profile__edit-container {
+    gap: 10px;
+    margin-bottom: 9px;
+    transform: translateX(14px);
+  }
+}

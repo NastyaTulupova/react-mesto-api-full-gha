@@ -1,0 +1,9 @@
+.form__button_valid {
+  cursor: pointer;
+  transition: opacity .3s;
+}
+
+.form__button_valid:hover {
+  opacity: .8;
+}
+

@@ -1,0 +1,9 @@
+.auth {
+  width: 358px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  margin-bottom: 80px;
+}

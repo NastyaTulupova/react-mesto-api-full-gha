@@ -1,0 +1,11 @@
+.form__button_invalid {
+  background-image: url(../../../../images/Submit_Button.svg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  transition: opacity .3s ease-in;
+  margin-left: auto;
+  color: rgba(0, 0, 0, 0.2);
+}

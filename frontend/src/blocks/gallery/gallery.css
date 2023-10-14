@@ -1,0 +1,26 @@
+.gallery {
+  list-style: none;
+  width: 100%;
+  display: grid;
+  flex-wrap: wrap;
+  grid-column-gap: 17px;
+  grid-row-gap: 20px;
+  padding: 0 0 66px 0;
+  margin: 0;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (max-width: 1080px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .gallery {
+    width: calc(100% - 19px*2);
+    grid-template-columns: 1fr;
+    margin: auto;
+    padding: 0 0 50px 0;
+  }
+}
