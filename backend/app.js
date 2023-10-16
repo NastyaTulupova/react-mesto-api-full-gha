@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { rateLimit } = require('express-rate-limit');
+const cors = require('cors');
 
 const { errors } = require('celebrate');
 const errorHandler = require('./middlewares/errorHandler');
@@ -27,9 +28,19 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(limiter);
 app.use(requestLogger);
+app.use(cors({
+  origin: ['http://localhost:3000','http://mesto.tulupova.nomoredomainsrocks.ru', 'https://mesto.tulupova.nomoredomainsrocks.ru', 'http://api.mesto.tulupova.nomoredomainsrocks.ru', 'https://api.mesto.tulupova.nomoredomainsrocks.ru'],
+  credentials: true,
+}));
 
 // подключаемся к серверу mongo
 mongoose.connect(DB_URL);
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадет');
+  }, 0);
+});
 
 app.use(router);
 app.use(errorLogger); // подключаем логгер ошибок
