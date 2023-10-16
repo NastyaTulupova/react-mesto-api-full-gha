@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(limiter);
 app.use(requestLogger);
 app.use(cors({
-  origin: ['http://localhost:3000','http://mesto.tulupova.nomoredomainsrocks.ru', 'https://mesto.tulupova.nomoredomainsrocks.ru', 'http://api.mesto.tulupova.nomoredomainsrocks.ru', 'https://api.mesto.tulupova.nomoredomainsrocks.ru'],
+  origin: ['http://localhost:3000', 'http://mesto.tulupova.nomoredomainsrocks.ru', 'https://mesto.tulupova.nomoredomainsrocks.ru', 'http://api.mesto.tulupova.nomoredomainsrocks.ru', 'https://api.mesto.tulupova.nomoredomainsrocks.ru'],
   credentials: true,
 }));
 

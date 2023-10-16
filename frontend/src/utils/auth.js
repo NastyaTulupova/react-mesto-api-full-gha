@@ -18,6 +18,7 @@ export const register = (password, email) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: 'include',
     body: JSON.stringify({
       password,
       email,
@@ -31,6 +32,7 @@ export const authorize = (password, email) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: 'include',
     body: JSON.stringify({
       password,
       email,
@@ -43,7 +45,8 @@ export const getData = (jwt) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${jwt}`,
+      "Authorization": `Bearer ${jwt}`,
     },
+    credentials: 'include',
   });
 };
