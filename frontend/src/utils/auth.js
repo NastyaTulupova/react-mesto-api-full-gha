@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.mesto.tulupova.nomoredomainsrocks.ru/";
+export const BASE_URL = "https://api.mesto.tulupova.nomoredomainsrocks.ru";
 
 function checkResponse(res) {
   if (res.ok) {
@@ -13,7 +13,7 @@ function request(url, options) {
 }
 
 export const register = (password, email) => {
-  request(`${BASE_URL}signup`, {
+  request(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export const register = (password, email) => {
 };
 
 export const authorize = (password, email) => {
-  request(`${BASE_URL}signin`, {
+  request(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +41,7 @@ export const authorize = (password, email) => {
 };
 
 export const getData = (jwt) => {
-  request(`${BASE_URL}users/me`, {
+  request(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

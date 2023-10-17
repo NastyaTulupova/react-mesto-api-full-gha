@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const { rateLimit } = require('express-rate-limit');
 const { errors } = require('celebrate');
 
-const cors = require('./middlewares/cors');
+const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -23,12 +23,27 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
+const corsParams = {
+  origin: ['localhost:3000',
+    'localhost:3001',
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://mesto.tulupova.nomoredomainsrocks.ru',
+    'https://mesto.tulupova.nomoredomainsrocks.ru',
+    'http://api.mesto.tulupova.nomoredomainsrocks.ru',
+    'https://api.mesto.tulupova.nomoredomainsrocks.ru'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  credentials: true,
+  allowedHeaders: ['Content-Type'],
+};
+app.use(cors(corsParams));
+
 app.use(express.json());
 app.use(helmet());
 app.use(cookieParser());
 app.use(limiter);
 app.use(requestLogger);
-app.use(cors);
 
 // подключаемся к серверу mongo
 mongoose.connect(DB_URL);
