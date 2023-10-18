@@ -1,27 +1,23 @@
 import React, { useState } from "react";
 
 function Login({ onLogin }) {
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+  function handleChangeEmail(e) {
+    setEmail(e.target.value);
+  }
 
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
+  function handleChangePassword(e) {
+    setPassword(e.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!formValue.email || !formValue.password) {
+    if (!email || !password) {
       return;
     } else {
-      const { email, password } = formValue;
-      onLogin(password, email);
+      onLogin(email, password);
     }
   }
   return (
@@ -40,8 +36,8 @@ function Login({ onLogin }) {
           id="email-input"
           name="email"
           placeholder="Email"
-          value={formValue.email}
-          onChange={handleChange}
+          value={email}
+          onChange={handleChangeEmail}
         />
         <span className="error" id="email-input-error"></span>
 
@@ -52,8 +48,8 @@ function Login({ onLogin }) {
           id="password-input"
           name="password"
           placeholder="Пароль"
-          value={formValue.password}
-          onChange={handleChange}
+          value={password}
+          onChange={handleChangePassword}
         />
         <span className="error" id="password-input-error"></span>
 

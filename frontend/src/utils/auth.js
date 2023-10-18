@@ -1,5 +1,5 @@
-export const BASE_URL = "https://api.mesto.tulupova.nomoredomainsrocks.ru";
-
+ export const BASE_URL = "https://api.mesto.tulupova.nomoredomainsrocks.ru";
+//export const BASE_URL = "http://localhost:3000";
 function checkResponse(res) {
   if (res.ok) {
     return res.json();
@@ -8,45 +8,43 @@ function checkResponse(res) {
   }
 }
 
-function request(url, options) {
-  return fetch(url, options).then(checkResponse);
-}
-
-export const register = (password, email) => {
-  request(`${BASE_URL}/signup`, {
+export const register = (email, password) => {
+  return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: 'include',
     body: JSON.stringify({
-      password,
-      email,
+      "password": password,
+      "email": email
     }),
-  });
+  })
+  .then((res) => checkResponse(res));
 };
 
-export const authorize = (password, email) => {
-  request(`${BASE_URL}/signin`, {
+export const authorize = (email, password) => {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: 'include',
     body: JSON.stringify({
-      password,
-      email,
+      "password": password,
+      "email": email
     }),
-  });
+  })
+  .then((res) => checkResponse(res));
 };
 
-export const getData = (jwt) => {
-  request(`${BASE_URL}/users/me`, {
+export const getData = () => {
+  return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${jwt}`,
     },
     credentials: 'include',
-  });
+  })
+  .then((res) => checkResponse(res));;
 };

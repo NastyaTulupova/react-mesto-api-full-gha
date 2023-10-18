@@ -12,29 +12,32 @@ class Api {
   }
 
   getUserInfoServer() {
-    return fetch(`${this._baseUrl}users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
-      }
+      },
+      credentials: 'include',
     }).then((res) => this._checkResponse(res));
   }
 
   getInitialCardsServer() {
-    return fetch(`${this._baseUrl}cards`, {
-      headers: this._headers,
+    return fetch(`${this._baseUrl}/cards`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
     }).then((res) => this._checkResponse(res));
   }
 
   setUserInfoServer(data) {
-    return fetch(`${this._baseUrl}users/me`, {
+    return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
-      credentials: this._credentails,
+      credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         about: data.about,
@@ -43,12 +46,12 @@ class Api {
   }
 
   setUserAvatarServer(data) {
-    return fetch(`${this._baseUrl}users/me/avatar`, {
+    return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
+      credentials: 'include',
       body: JSON.stringify({
         avatar: data.avatar,
       }),
@@ -56,12 +59,12 @@ class Api {
   }
 
   addNewCardServer(data) {
-    return fetch(`${this._baseUrl}cards`, {
+    return fetch(`${this._baseUrl}/cards`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem('jwt')}`
       },
+      credentials: 'include',
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -71,26 +74,39 @@ class Api {
 
   changeLikeCardStatus(cardId, isLiked) {
     if (isLiked) {
-      return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "PUT",
-        headers: this._headers,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: 'include',
       }).then((res) => this._checkResponse(res));
     } else {
-      return fetch(`${this._baseUrl}cards/${cardId}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: "DELETE",
-        headers: this._headers,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: 'include',
       }).then((res) => this._checkResponse(res));
     }
   }
 
   deleteCardServer(cardId) {
-    return fetch(`${this._baseUrl}cards/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: 'include',
     }).then((res) => this._checkResponse(res));
   }
 }
 
-const api = new Api("https://api.mesto.tulupova.nomoredomainsrocks.ru/");
+const api = new Api(
+  {
+    baseUrl: "https://api.mesto.tulupova.nomoredomainsrocks.ru",
+    // baseUrl: "http://localhost:3000",
+  });
 
 export { api };
