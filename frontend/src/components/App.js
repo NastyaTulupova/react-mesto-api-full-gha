@@ -207,7 +207,7 @@ function App() {
         <Header 
         email={email} 
         signOut={signOut} 
-       // loggedIn={loggedIn} 
+        loggedIn={loggedIn} 
         />
         <Routes>
           <Route
