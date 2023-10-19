@@ -15,6 +15,7 @@ module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
+    .then((card) => card.populate('owner'))
     .then((card) => res.status(SUCCESS_CODE).send(card))
     .catch((err) => {
       if (err instanceof ValidationError) {
@@ -25,18 +26,21 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send(cards))
+    .populate(['owner', 'likes'])
+    .then((cards) => res.send(cards.reverse))
     .catch(next);
 };
 
 module.exports.deleteCardById = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         next(new ErrorNotFound('Карточка не найдена'));
       }
       if (card.owner.toString() === req.user._id) {
-        card.deleteOne(card)
+        card
+          .deleteOne(card)
           .then((cards) => res.send(cards))
           .catch(next);
       } else {
@@ -49,9 +53,10 @@ module.exports.deleteCardById = (req, res, next) => {
 module.exports.putLikeCardById = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+    { $addToSet: { likes: req.user } }, // добавить _id в массив, если его там нет
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new ErrorNotFound('Карточка не найдена');
@@ -69,9 +74,10 @@ module.exports.putLikeCardById = (req, res, next) => {
 module.exports.putDislikeCardById = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $pull: { likes: req.user._id } }, // убрать _id из массива
+    { $pull: { likes: req.user } }, // убрать _id из массива
     { new: true },
   )
+    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new ErrorNotFound('Карточка не найдена');

@@ -106,7 +106,7 @@ class Api {
 const api = new Api(
   {
     baseUrl: "https://api.mesto.tulupova.nomoredomainsrocks.ru",
-    // baseUrl: "http://localhost:3000",
+    //baseUrl: "http://localhost:3000",
   });
 
 export { api };
