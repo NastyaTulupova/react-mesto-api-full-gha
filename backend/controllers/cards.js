@@ -15,7 +15,6 @@ module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => card.populate('owner'))
     .then((card) => res.status(SUCCESS_CODE).send(card))
     .catch((err) => {
       if (err instanceof ValidationError) {
@@ -26,14 +25,12 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .populate(['owner', 'likes'])
-    .then((cards) => res.send(cards.reverse))
+    .then((cards) => res.send(cards.reverse()))
     .catch(next);
 };
 
 module.exports.deleteCardById = (req, res, next) => {
   Card.findById(req.params.cardId)
-    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         next(new ErrorNotFound('Карточка не найдена'));
@@ -74,10 +71,8 @@ module.exports.putLikeCardById = (req, res, next) => {
 module.exports.putDislikeCardById = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $pull: { likes: req.user } }, // убрать _id из массива
-    { new: true },
+    { $pull: { likes: { $in: [req.user._id] } } }, // убрать _id из массива
   )
-    .populate(['owner', 'likes'])
     .then((card) => {
       if (!card) {
         throw new ErrorNotFound('Карточка не найдена');

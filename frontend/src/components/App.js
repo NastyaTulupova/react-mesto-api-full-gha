@@ -31,7 +31,7 @@ function App() {
     React.useState(false);
   const [isPreloadingEditAvatarPopup, setIsPreloadingEditAvatarPopup] =
     React.useState(false);
-  const [loggedIn, setloggedIn] = React.useState(localStorage.getItem('loggedIn') || false);
+  const [loggedIn, setloggedIn] = React.useState(false);
   const [email, setEmail] = React.useState({});
   const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
   const [tooltipTitle, setTooltipTitle] = useState("");
@@ -84,12 +84,23 @@ function App() {
     api
       .changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c === card ? newCard : c))
-        );
+        
+        const newCardsList = cards.map(o => {
+          if (o._id === newCard._id) {
+            return newCard;
+          }
+          return o;
+        });
+        setCards(newCardsList)
       })
       .catch((error) => console.log(`Произошла ошибка ${error}`));
-  }
+      Promise.all([api.getUserInfoServer(), api.getInitialCardsServer()])
+      .then(([resUser, resCard]) => {
+        setCurrentUser(resUser);
+        setCards(resCard);
+      })
+      
+    }
 
   //Обработчик удаления карточки
   function handleCardDelete(card) {
@@ -205,9 +216,9 @@ function App() {
     
       <div className="page">
         <Header 
-        email={email} 
+        email={email || ''} 
         signOut={signOut} 
-        loggedIn={loggedIn} 
+        loggedIn={loggedIn || false} 
         />
         <Routes>
           <Route

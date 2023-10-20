@@ -10,7 +10,7 @@ function Header({ email, loggedIn, signOut }) {
       <img src={logo} alt="Лого сервиса Mesto" className="header__logo" />
       {loggedIn ? (
         <div className="header__navigation">
-          <p className="header__email">{email}</p>
+          <p className="header__email">{email || "wm"}</p>
           <Link className="header__link" to="/sign-in" onClick={signOut}>
             Выйти
           </Link>
